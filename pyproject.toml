@@ -51,6 +51,7 @@ dependencies = [
     # ─── Data Processing ───────────────────────────────────────────────────────
     "python-dateutil>=2.9.0",
     "Pillow>=10.4.0",
+    "SpeechRecognition>=3.10.0",
 ]
 
 [project.scripts]

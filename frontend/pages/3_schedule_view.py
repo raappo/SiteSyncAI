@@ -12,22 +12,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Schedule View | SiteSync AI", page_icon="📊", layout="wide")
+from frontend.styles import apply_custom_css
 
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-[data-testid="stSidebar"] { background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); }
-.main .block-container { padding-top: 1.5rem; max-width: 1400px; }
-.disc-civil  { color: #f97316; font-weight:600; }
-.disc-piping { color: #38bdf8; font-weight:600; }
-.disc-elec   { color: #a78bfa; font-weight:600; }
-.disc-instr  { color: #34d399; font-weight:600; }
-.disc-hse    { color: #f43f5e; font-weight:600; }
-#MainMenu{visibility:hidden} footer{visibility:hidden}
-</style>
-""", unsafe_allow_html=True)
+st.set_page_config(page_title="Schedule View | SiteSync AI", page_icon="📊", layout="wide")
+apply_custom_css()
 
 DISC_COLORS = {
     "Civil": "#f97316",
@@ -90,13 +78,28 @@ try:
     avg_prog = sum(a.progress_pct or 0 for a in filtered) / max(total, 1)
 
     m1, m2, m3, m4, m5 = st.columns(5)
-    m1.metric("Total Activities", total)
-    m2.metric("Not Started", not_started, delta=None)
-    m3.metric("In Progress", in_prog)
-    m4.metric("Complete", complete)
-    m5.metric("Avg Progress", f"{avg_prog:.1f}%")
+    with m1:
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{total}</div><div class="kpi-label">Total Activities</div></div>', unsafe_allow_html=True)
+    with m2:
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{not_started}</div><div class="kpi-label">Not Started</div></div>', unsafe_allow_html=True)
+    with m3:
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{in_prog}</div><div class="kpi-label">In Progress</div></div>', unsafe_allow_html=True)
+    with m4:
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{complete}</div><div class="kpi-label">Complete</div></div>', unsafe_allow_html=True)
+    with m5:
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{avg_prog:.1f}%</div><div class="kpi-label">Avg Progress</div></div>', unsafe_allow_html=True)
     st.divider()
 
+    # ── Early Warning Strip ───────────────────────────────────────────────────
+    # Simulating behind-schedule logic: Any activity < 20% progress but should be done.
+    # In a real PMIS, this would check planned_end against today's date.
+    behind_schedule = [a for a in filtered if (a.progress_pct or 0) < 20 and a.planned_end and a.planned_end < "2024-03-01"]
+    if behind_schedule:
+        st.error(f"⚠️ **Early Warning:** {len(behind_schedule)} activities are critically behind schedule and threatening the critical path.")
+        with st.expander("View Critical Delays"):
+            for act in behind_schedule[:5]:
+                st.markdown(f"- **{act.activity_id}** ({act.discipline}): {act.description} | {act.progress_pct or 0}% completed vs planned end date {act.planned_end}")
+    
     # ── Discipline overview chart ──────────────────────────────────────────────
     with st.expander("📈 Discipline Progress Overview", expanded=True):
         disc_data = {}
@@ -137,10 +140,11 @@ try:
                 status_icon = "🔄"
             else:
                 status_icon = "⭕"
-
+            
+            st.markdown('<div class="card-container">', unsafe_allow_html=True)
             col_id, col_desc, col_dates, col_prog = st.columns([1.5, 4, 2, 2.5])
             with col_id:
-                st.markdown(f"`{act.activity_id}`")
+                st.markdown(f"**`{act.activity_id}`**")
                 if act.wbs_code:
                     st.caption(act.wbs_code)
             with col_desc:
@@ -157,13 +161,13 @@ try:
                 st.markdown(
                     f"""<div style="margin-top:4px;">
                     <div style="font-size:0.85rem; font-weight:600; color:{bar_color}; margin-bottom:3px;">{pct:.1f}%</div>
-                    <div style="background:#1e293b; border-radius:6px; height:8px; width:100%;">
+                    <div style="background:#0F172A; border-radius:6px; height:8px; width:100%;">
                       <div style="background:{bar_color}; width:{bar_width}%; height:8px; border-radius:6px; transition:width 0.4s;"></div>
                     </div>
                     </div>""",
                     unsafe_allow_html=True,
                 )
-            st.divider()
+            st.markdown('</div>', unsafe_allow_html=True)
 
     # ── Export ────────────────────────────────────────────────────────────────
     st.markdown("### 📥 Export")

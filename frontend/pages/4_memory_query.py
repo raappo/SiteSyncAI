@@ -14,21 +14,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 import streamlit as st
 import pandas as pd
 
+from frontend.styles import apply_custom_css
+
 st.set_page_config(page_title="Memory Query | SiteSync AI", page_icon="🧠", layout="wide")
+apply_custom_css()
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-[data-testid="stSidebar"] { background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); }
-.main .block-container { padding-top: 1.5rem; max-width: 1400px; }
-.memory-card { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 12px; padding: 1.2rem 1.5rem; margin: 0.6rem 0; transition: transform 0.2s; }
-.memory-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
 .similarity-high   { color: #34d399; font-weight: 700; }
 .similarity-medium { color: #f59e0b; font-weight: 700; }
 .similarity-low    { color: #f87171; font-weight: 700; }
-.memory-doc { font-size: 0.9rem; color: #94a3b8; font-style: italic; margin-bottom: 0.5rem; }
-#MainMenu{visibility:hidden} footer{visibility:hidden}
+.memory-doc { font-size: 0.95rem; color: #cbd5e1; font-style: italic; margin-bottom: 0.5rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -48,9 +44,9 @@ try:
     with c1:
         total = stats.get("total_events", 0)
         st.markdown(
-            f'<div style="background:#1e3a5f; border-radius:10px; padding:1rem; text-align:center;">'
-            f'<div style="font-size:2rem; font-weight:700; color:#38bdf8;">{total}</div>'
-            f'<div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">MEMORY RECORDS</div>'
+            f'<div class="kpi-container">'
+            f'<div class="kpi-value">{total}</div>'
+            f'<div class="kpi-label">MEMORY RECORDS</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -132,7 +128,7 @@ try:
                     sim_class = "similarity-low"
                     sim_label = "Low"
 
-                st.markdown(f'<div class="memory-card">', unsafe_allow_html=True)
+                st.markdown(f'<div class="card-container">', unsafe_allow_html=True)
 
                 rc1, rc2 = st.columns([3, 1])
                 with rc1:

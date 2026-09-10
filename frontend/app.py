@@ -26,86 +26,14 @@ st.set_page_config(
     },
 )
 
-# ── Global CSS ─────────────────────────────────────────────────────────────────
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
-/* Dark sidebar */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-    border-right: 1px solid #334155;
-}
-[data-testid="stSidebar"] * {
-    color: #e2e8f0 !important;
-}
-
-/* Main background */
-.main .block-container {
-    padding-top: 1.5rem;
-    max-width: 1400px;
-}
-
-/* Metric cards */
-.metric-card {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    border: 1px solid #334155;
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-.metric-value { font-size: 2rem; font-weight: 700; color: #38bdf8; }
-.metric-label { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-
-/* Confidence badges */
-.badge-high   { background: #166534; color: #bbf7d0; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-.badge-medium { background: #854d0e; color: #fef08a; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-.badge-low    { background: #7f1d1d; color: #fecaca; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-
-/* Chat messages */
-.chat-user    { background: #1e3a5f; border-radius: 12px 12px 2px 12px; padding: 0.8rem 1rem; margin: 0.4rem 0; max-width: 80%; margin-left: auto; color: #e0f2fe; }
-.chat-agent   { background: #1e293b; border-radius: 12px 12px 12px 2px; padding: 0.8rem 1rem; margin: 0.4rem 0; max-width: 80%; border-left: 3px solid #38bdf8; color: #e2e8f0; }
-
-/* Progress bars in schedule view */
-.prog-bar-outer { background: #1e293b; border-radius: 6px; height: 10px; width: 100%; }
-.prog-bar-inner { background: linear-gradient(90deg, #38bdf8, #818cf8); border-radius: 6px; height: 10px; transition: width 0.4s; }
-
-/* Streamlit button overrides */
-.stButton > button {
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-/* Remove default streamlit branding padding */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
-
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("""
-    <div style="text-align:center; padding: 1rem 0 1.5rem 0;">
-        <div style="font-size: 2.5rem;">🏗️</div>
-        <div style="font-size: 1.3rem; font-weight: 700; color: #38bdf8;">SiteSync AI</div>
-        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">SIH 2024 · Problem ID 26122</div>
-        <div style="font-size: 0.7rem; color: #475569; margin-top: 2px;">Oil India Limited</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("🏗️ SiteSync AI")
+    st.markdown("**SIH 2024 · Problem ID 26122**")
+    st.markdown("*Oil India Limited*")
+    st.divider()
 
-    st.markdown("---")
     st.markdown("**Navigate to:**")
-
     pages = {
         "🤖 Time Agent": "pages/1_time_agent.py",
         "📋 Review Queue": "pages/2_review_queue.py",
@@ -115,12 +43,15 @@ with st.sidebar:
     for label in pages:
         st.page_link(pages[label], label=label)
 
-    st.markdown("---")
-    st.markdown("<div style='font-size:0.7rem; color: #475569;'>Built with LangChain · sentence-transformers · ChromaDB · Azure DI</div>", unsafe_allow_html=True)
+    st.divider()
+    st.caption("Built with LangChain · sentence-transformers · ChromaDB · Azure DI")
 
+
+from frontend.styles import apply_custom_css
+apply_custom_css()
 
 # ── Dashboard Home ─────────────────────────────────────────────────────────────
-st.markdown("## 🏗️ SiteSync AI — Dashboard")
+st.title("🏗️ SiteSync AI — Dashboard")
 st.markdown("*Intelligent Data Capture & Schedule-Linking for Infrastructure Projects*")
 st.divider()
 
@@ -135,34 +66,32 @@ try:
         total_events = db.query(EventLog).count()
         auto_applied = db.query(EventLog).filter(EventLog.auto_applied == True).count()
         pending_review = db.query(ReviewQueueItem).filter(ReviewQueueItem.status == "PENDING").count()
-        avg_progress = db.query(ScheduleActivity).all()
-        avg_pct = sum(a.progress_pct or 0 for a in avg_progress) / max(len(avg_progress), 1)
 
     mem = memory_stats()
     memory_count = mem.get("total_events", 0)
 
     col1, col2, col3, col4, col5 = st.columns(5)
+    
     with col1:
-        st.markdown(f'<div class="metric-card"><div class="metric-value">{total_activities}</div><div class="metric-label">Schedule Activities</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{total_activities}</div><div class="kpi-label">Schedule Activities</div></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown(f'<div class="metric-card"><div class="metric-value">{total_events}</div><div class="metric-label">Events Processed</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{total_events}</div><div class="kpi-label">Events Processed</div></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown(f'<div class="metric-card"><div class="metric-value">{auto_applied}</div><div class="metric-label">Auto-Applied</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value">{auto_applied}</div><div class="kpi-label">Auto-Applied</div></div>', unsafe_allow_html=True)
     with col4:
-        st.markdown(f'<div class="metric-card"><div class="metric-value" style="color:#f59e0b">{pending_review}</div><div class="metric-label">Pending Review</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value" style="color:#FBBF24;">{pending_review}</div><div class="kpi-label">Pending Review</div></div>', unsafe_allow_html=True)
     with col5:
-        st.markdown(f'<div class="metric-card"><div class="metric-value" style="color:#a78bfa">{memory_count}</div><div class="metric-label">Memory Records</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-container"><div class="kpi-value" style="color:#A78BFA;">{memory_count}</div><div class="kpi-label">Memory Records</div></div>', unsafe_allow_html=True)
 
 except Exception as e:
     st.warning(f"Database not seeded yet. Run: `uv run python -m sitesync.db.seed` | Error: {e}")
     col1, col2, col3, col4, col5 = st.columns(5)
-    for col, label, val in zip(
+    for col, label in zip(
         [col1, col2, col3, col4, col5],
-        ["Schedule Activities", "Events Processed", "Auto-Applied", "Pending Review", "Memory Records"],
-        ["—", "—", "—", "—", "—"]
+        ["Schedule Activities", "Events Processed", "Auto-Applied", "Pending Review", "Memory Records"]
     ):
         with col:
-            st.markdown(f'<div class="metric-card"><div class="metric-value">{val}</div><div class="metric-label">{label}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="kpi-container"><div class="kpi-value">—</div><div class="kpi-label">{label}</div></div>', unsafe_allow_html=True)
 
 st.markdown("")
 st.divider()

@@ -95,20 +95,32 @@ class LLMExtractor:
         # Strip markdown fences
         clean = re.sub(r"```(?:json)?|```", "", raw).strip()
 
-        # Attempt array parse
+        # Attempt direct parse
         try:
             data = json.loads(clean)
-            if isinstance(data, dict):
-                data = [data]
         except json.JSONDecodeError:
-            # Try to find JSON array/object within the text
-            match = re.search(r"(\[.*\]|\{.*\})", clean, re.DOTALL)
-            if match:
-                data = json.loads(match.group(1))
-                if isinstance(data, dict):
-                    data = [data]
-            else:
+            # Fallback: extract substring between outermost [ ] or { }
+            data = None
+            first_bracket, last_bracket = clean.find('['), clean.rfind(']')
+            first_brace, last_brace = clean.find('{'), clean.rfind('}')
+
+            if first_bracket != -1 and last_bracket != -1 and (first_brace == -1 or first_bracket < first_brace):
+                try:
+                    data = json.loads(clean[first_bracket:last_bracket+1])
+                except json.JSONDecodeError:
+                    pass
+
+            if data is None and first_brace != -1 and last_brace != -1:
+                try:
+                    data = json.loads(clean[first_brace:last_brace+1])
+                except json.JSONDecodeError:
+                    pass
+
+            if data is None:
                 raise ValueError(f"Cannot extract JSON from LLM output: {clean[:200]}")
+
+        if isinstance(data, dict):
+            data = [data]
 
         updates = []
         for item in data:
@@ -123,6 +135,7 @@ class LLMExtractor:
         self, prompt_value, evidence_type: str
     ) -> tuple[str, list[ActivityUpdate], str]:
         """Try each LLM in priority order, fall back on HTTP 429 or any error."""
+        from pydantic import ValidationError
         errors = []
 
         for llm, model_label in self._clients:
@@ -131,6 +144,11 @@ class LLMExtractor:
                 raw = response.content
                 updates = self._parse_json_array(raw, evidence_type)
                 return raw, updates, model_label
+            except ValidationError as ve:
+                err_str = f"Validation Error: {str(ve)}"
+                errors.append(f"{model_label}: {err_str[:100]}")
+                console.print(f"[red]✗ {model_label} validation failed: {err_str[:80]}[/red]")
+                continue
             except Exception as e:
                 err_str = str(e)
                 errors.append(f"{model_label}: {err_str[:100]}")

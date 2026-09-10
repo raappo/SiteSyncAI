@@ -13,33 +13,22 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 import streamlit as st
 import pandas as pd
+from frontend.styles import apply_custom_css
 
 st.set_page_config(page_title="Review Queue | SiteSync AI", page_icon="📋", layout="wide")
-
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-[data-testid="stSidebar"] { background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); }
-.main .block-container { padding-top: 1.5rem; max-width: 1400px; }
-.queue-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.2rem; margin: 0.6rem 0; }
-.badge-pending  { background:#7f1d1d; color:#fecaca; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:600; }
-.badge-approved { background:#166534; color:#bbf7d0; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:600; }
-.badge-rejected { background:#374151; color:#9ca3af; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:600; }
-.badge-remapped { background:#1e3a5f; color:#93c5fd; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:600; }
-#MainMenu{visibility:hidden} footer{visibility:hidden}
-</style>
-""", unsafe_allow_html=True)
+apply_custom_css()
 
 
 def status_badge(status: str) -> str:
-    badges = {
-        "PENDING": '<span class="badge-pending">⏳ PENDING</span>',
-        "APPROVED": '<span class="badge-approved">✅ APPROVED</span>',
-        "REJECTED": '<span class="badge-rejected">🚫 REJECTED</span>',
-        "REMAPPED": '<span class="badge-remapped">🔄 REMAPPED</span>',
-    }
-    return badges.get(status, status)
+    if status == "PENDING":
+        return '<span class="badge badge-pending">⏳ PENDING</span>'
+    elif status == "APPROVED":
+        return '<span class="badge badge-auto">✅ APPROVED</span>'
+    elif status == "REJECTED":
+        return '<span class="badge badge-mismatch">🚫 REJECTED</span>'
+    elif status == "REMAPPED":
+        return '<span class="badge badge-neutral">🔄 REMAPPED</span>'
+    return f'<span class="badge">{status}</span>'
 
 
 st.markdown("# 📋 Planner Review Queue")
@@ -98,7 +87,7 @@ try:
             extracted = json.loads(ev.extracted_json) if ev.extracted_json else {}
 
             with st.container():
-                st.markdown(f'<div class="queue-card">', unsafe_allow_html=True)
+                st.markdown(f'<div class="card-container">', unsafe_allow_html=True)
 
                 top_row = st.columns([4, 2, 2])
                 with top_row[0]:
@@ -122,17 +111,31 @@ try:
                             st.markdown("**Extracted JSON**")
                             st.json(extracted)
                         with d2:
-                            st.markdown("**Match Scores**")
-                            st.markdown(f"- Semantic: `{ev.semantic_score or 0:.3f}`")
-                            st.markdown(f"- Evidence weight: `{ev.evidence_weight or 0:.2f}`")
-                            st.markdown(f"- Temporal: `{ev.temporal_score or 0:.2f}`")
-                            st.markdown(f"- **Confidence: `{ev.confidence_score or 0:.3f}`**")
-                            if item.planner_notes:
-                                st.warning(item.planner_notes)
+                            st.markdown("**Multi-Signal Confidence Breakdown**")
+                            
+                            def make_bar(label: str, val: float, color: str):
+                                w = max(2, int(val * 100))
+                                return f"""
+                                <div style="margin-bottom:8px;">
+                                    <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:2px;">{label} ({val:.3f})</div>
+                                    <div style="background:#0f172a; border-radius:4px; height:6px; width:100%;">
+                                        <div style="background:{color}; width:{w}%; height:6px; border-radius:4px;"></div>
+                                    </div>
+                                </div>
+                                """
+                            
+                            st.markdown(make_bar("Semantic Score", ev.semantic_score or 0, "#38bdf8"), unsafe_allow_html=True)
+                            st.markdown(make_bar("Evidence Weight", ev.evidence_weight or 0, "#a78bfa"), unsafe_allow_html=True)
+                            st.markdown(make_bar("Temporal Plausibility", ev.temporal_score or 0, "#34d399"), unsafe_allow_html=True)
+                            st.markdown(make_bar("Final Confidence", ev.confidence_score or 0, "#facc15"), unsafe_allow_html=True)
 
+                            if item.planner_notes:
+                                st.warning(f"⚠️ {item.planner_notes}")
+
+                        st.markdown("<br>", unsafe_allow_html=True)
                         a1, a2, a3 = st.columns(3)
                         with a1:
-                            if st.button(f"✅ Approve #{item.id}", key=f"approve_{item.id}", type="primary"):
+                            if st.button(f"✅ Approve #{item.id}", key=f"approve_{item.id}", type="primary", use_container_width=True):
                                 with get_db() as db2:
                                     qi = db2.query(ReviewQueueItem).filter(ReviewQueueItem.id == item.id).first()
                                     ei = db2.query(EventLog).filter(EventLog.id == item.event_log_fk).first()
