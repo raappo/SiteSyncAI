@@ -76,6 +76,7 @@ def route(linking_result: LinkingResult, source_file: Optional[str] = None) -> E
             )
             db.flush()
             db.refresh(event)
+            db.expunge(event)
             return event
 
         # ── Load matched schedule activity ─────────────────────────────────
@@ -113,6 +114,7 @@ def route(linking_result: LinkingResult, source_file: Optional[str] = None) -> E
                 )
             db.flush()
             db.refresh(event)
+            db.expunge(event)
             return event
 
         # ── Case 3: Low confidence or contradiction → review queue ─────────
@@ -136,4 +138,5 @@ def route(linking_result: LinkingResult, source_file: Optional[str] = None) -> E
         )
         db.flush()
         db.refresh(event)
+        db.expunge(event)
         return event
