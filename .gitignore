@@ -1,0 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# uv
+.uv/
+
+# Environment & secrets — NEVER commit these
+.env
+*.env.local
+
+# Databases & local data stores (re-created by seed script)
+data/sitesync.db
+data/sitesync.db-wal
+data/sitesync.db-shm
+data/chroma_db/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# ML model cache — these can be GBs, never commit
+.cache/
+models/
+~/.cache/huggingface/
+**/.huggingface/
+**/sentence_transformers/
+
+# Generated data files (keep templates, exclude generated outputs)
+data/piping_progress.xlsx
+

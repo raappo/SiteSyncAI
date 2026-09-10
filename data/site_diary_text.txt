@@ -1,0 +1,50 @@
+DAILY PROGRESS REPORT — SITE DIARY
+Project: Tank Farm Expansion Phase-II
+Contractor: M/s Bharat Engineering Services Pvt Ltd
+Date: 14-Feb-2024
+Reported By: Rajan Mishra (Site Supervisor, Piping)
+Shift: General (0800-1700)
+Weather: Clear, temp ~26°C
+Manpower Today: Fitters-8, Welders-6, Helpers-12, Supervisor-2
+
+---
+
+PIPING:
+- Spool erected on 6 inch line near hot oil tank. Done 3 joints weld today, total 9 joints done out of 28.
+  Pending joints due to flange alignment issue on NE side. Material inspector checked WPS compliance.
+- 3 inch SS line (utility area) - 6 more spools aligned and tacked. Approx 40 percent done now.
+  Had to stop early because consumables (SS ER316L wire) ran short. Raised PR-2024-089.
+
+CIVIL:
+- RCC footing pour at grid B3 completed 0930 hrs - approx 85 cum poured. Curing started.
+  Total footing progress now ~85%. QC hold point cleared by PMC engineer Mr. Verma at 1015 hrs.
+- Road work - WMM layer laying ongoing plant north road. About 70 percent done. Roller breakdown
+  at 1400, sent for repair, expected back tmrw morning.
+
+ELECTRICAL:
+- MCC-04 area - cable tray work almost done, maybe 90%. Last section near DB-4 still pending
+  because civil embedments not complete (waiting on CIV team).
+- E&I loop check on MCC-04 pending, will start once cable terminations done.
+
+INSTRUMENTATION:
+- Pulled instrument cable from JB-101 to flow transmitter FT-2401. ~85% complete.
+  Remaining 15m cable route has congestion with existing pipe rack. RFI raised.
+
+HSE:
+- 2 near miss reports filed: (1) Housekeeping issue at pipe spool staging area.
+  (2) Worker observed without safety goggles during grinding. Both counselled.
+- Fire watch active for welding at tank farm. PTW no. HW-2024-147 valid till 15-Feb.
+
+ISSUES/CONSTRAINTS:
+1. SS consumables shortage - piping delay risk
+2. Road roller breakdown - civil schedule impact
+3. Cable embedment pending - ELE-002 tail-end blocked by civil
+4. Scaffold at grid A1 needs re-inspection (damaged by material movement)
+
+NEXT DAY PLAN:
+- Complete remaining 19 piping weld joints Line 24-HO-101 (if consumables arrive)
+- Restart road roller compaction on WMM
+- Begin cable terminations MCC-04 once tray complete
+- Loop check FT-2401 - target start 21-Feb after cable pull complete
+
+Supervisor Signature: R. Mishra                        PMC Review: Pending
