@@ -190,5 +190,5 @@ def memory_stats() -> dict:
         collection = _get_collection()
         count = collection.count()
         return {"total_events": count, "collection": _COLLECTION_NAME}
-    except Exception as e:
-        return {"error": str(e)}
+    except Exception:
+        return {"error": "memory stats unavailable"}
