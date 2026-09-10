@@ -145,7 +145,7 @@ class LLMExtractor:
         dummy_update = ActivityUpdate(
             discipline="Civil",
             location="Site-Wide",
-            activity_description=str(prompt_value.messages[-1].content)[:200],
+            activity_description=str(prompt_value[-1].content)[:200],
             actual_progress_pct=10.0,
             date="2024-02-14",
             evidence_type=evidence_type,
