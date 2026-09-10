@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from rich.console import Console
@@ -40,10 +40,20 @@ def _get_client():
 
 def _get_collection():
     """Get or create the project memory collection."""
+    from chromadb import EmbeddingFunction, Embeddings
+    from sitesync.linking.embedder import embed_text
+
+    class SiteSyncEmbeddingFunction(EmbeddingFunction):
+        """Wraps embed_text() so ChromaDB uses the same embedding backend as the pipeline."""
+
+        def __call__(self, input: list[str]) -> Embeddings:  # noqa: A002
+            return [embed_text(t).tolist() for t in input]
+
     client = _get_client()
     collection = client.get_or_create_collection(
         name=_COLLECTION_NAME,
         metadata={"hnsw:space": "cosine"},
+        embedding_function=SiteSyncEmbeddingFunction(),
     )
     return collection
 
@@ -101,7 +111,7 @@ def upsert_event(
         "evidence_type": evidence_type,
         "confidence_score": confidence_score or 0.0,
         "constraints": json.dumps(constraints or []),
-        "indexed_at": datetime.utcnow().isoformat(),
+        "indexed_at": datetime.now(timezone.utc).isoformat(),
     }
     if actual_duration_days is not None:
         metadata["actual_duration_days"] = actual_duration_days
@@ -180,5 +190,5 @@ def memory_stats() -> dict:
         collection = _get_collection()
         count = collection.count()
         return {"total_events": count, "collection": _COLLECTION_NAME}
-    except Exception as e:
-        return {"error": str(e)}
+    except Exception:
+        return {"error": "memory stats unavailable"}

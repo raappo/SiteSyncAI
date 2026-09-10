@@ -35,9 +35,18 @@ def _detect_contradiction(
     return new_progress < (current - 10.0)
 
 
-def route(linking_result: LinkingResult, source_file: Optional[str] = None) -> EventLog:
+def route(
+    linking_result: LinkingResult,
+    source_file: Optional[str] = None,
+    model_used: Optional[str] = None,
+) -> EventLog:
     """
     Route a linking result to either auto-apply or the review queue.
+
+    Args:
+        linking_result: The result of the schedule-linking step.
+        source_file: Optional source filename for provenance.
+        model_used: Optional LLM model ID that produced the extraction.
 
     Returns:
         The EventLog record created (always).

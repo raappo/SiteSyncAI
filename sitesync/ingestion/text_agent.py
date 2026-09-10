@@ -1,23 +1,17 @@
 """
-SiteSync AI — Time Agent (LangChain Conversational Interface)
+SiteSync AI — Time Agent (LangChain LCEL Conversational Interface)
 
-A guided LangChain ConversationChain that acts as a "field Time Agent."
-Site supervisors describe their work in natural language; the agent
-probes for missing details (discipline, location, progress%, date)
-before triggering the extraction pipeline.
+A guided conversational agent that helps field supervisors log activity progress.
+Uses LangChain 0.3+ LCEL (no deprecated ConversationChain/ConversationBufferMemory).
+Falls back to a simple rule-based mock if no LLM is configured.
 """
 from __future__ import annotations
 
 from typing import Optional
 
-from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    HumanMessagePromptTemplate,
-    MessagesPlaceholder,
-    SystemMessagePromptTemplate,
-)
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 from rich.console import Console
 
@@ -45,50 +39,95 @@ Information you MUST collect before saying READY_TO_EXTRACT:
 If the supervisor has already given all 5, immediately output READY_TO_EXTRACT.
 
 Example READY_TO_EXTRACT output:
-READY_TO_EXTRACT: Piping | Tank Farm Area | Erect and weld spools on 6-inch hot oil line | 32% | 2024-02-14
-
-Current conversation context:"""
+READY_TO_EXTRACT: Piping | Tank Farm Area | Erect and weld spools on 6-inch hot oil line | 32% | 2026-09-10"""
 
 
-def build_time_agent_chain(
-    model: Optional[str] = None,
-    base_url: Optional[str] = None,
-    api_key: Optional[str] = None,
-) -> ConversationChain:
-    """Build a LangChain ConversationChain for the Time Agent."""
+class TimeAgent:
+    """
+    LCEL-based conversational Time Agent with in-memory message history.
+    Falls back to a simple rule-based mock if no LLM is configured.
+    """
 
-    # Use settings.active_models priority order if not explicitly specified
-    if model is None and settings.active_models:
-        _base_url, _api_key, _model = settings.active_models[0]
-    else:
-        _model = model or settings.nvidia_default_model
-        _base_url = base_url or settings.nvidia_base_url
-        _api_key = api_key or settings.nvidia_api_key
+    def __init__(self):
+        self._history: list = []  # list of HumanMessage / AIMessage
+        self._chain = self._build_chain()
+        self._mock_mode = self._chain is None
 
-    llm = ChatOpenAI(
-        model=_model,
-        base_url=base_url or _base_url,
-        api_key=api_key or _api_key,
-        temperature=0.2,
-        max_tokens=500,
-        timeout=30,
-    )
+    def _build_chain(self):
+        """Build LangChain LCEL chain. Returns None if no LLM configured."""
+        if not settings.active_models:
+            console.print("[yellow]⚠ No LLM configured — Time Agent using mock mode.[/yellow]")
+            return None
 
-    memory = ConversationBufferMemory(return_messages=True, memory_key="history")
+        base_url, api_key, model_id = settings.active_models[0]
+        llm = ChatOpenAI(
+            model=model_id,
+            base_url=base_url,
+            api_key=api_key,
+            temperature=0.2,
+            max_tokens=500,
+            timeout=30,
+            max_retries=2,
+        )
 
-    prompt = ChatPromptTemplate.from_messages([
-        SystemMessagePromptTemplate.from_template(_TIME_AGENT_SYSTEM),
-        MessagesPlaceholder(variable_name="history"),
-        HumanMessagePromptTemplate.from_template("{input}"),
-    ])
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", _TIME_AGENT_SYSTEM),
+            MessagesPlaceholder(variable_name="history"),
+            ("human", "{input}"),
+        ])
 
-    chain = ConversationChain(
-        llm=llm,
-        memory=memory,
-        prompt=prompt,
-        verbose=False,
-    )
-    return chain
+        return prompt | llm | StrOutputParser()
+
+    def send(self, user_message: str) -> str:
+        """Send a message and get the agent's response."""
+        if self._mock_mode:
+            return self._mock_response(user_message)
+
+        try:
+            response = self._chain.invoke({
+                "input": user_message,
+                "history": self._history,
+            })
+            # Update history
+            self._history.append(HumanMessage(content=user_message))
+            self._history.append(AIMessage(content=response))
+            return response
+        except Exception as e:
+            console.print(f"[red]Time Agent LLM error: {e}[/red]")
+            # Fall back to mock on error
+            return self._mock_response(user_message)
+
+    def _mock_response(self, user_message: str) -> str:
+        """Simple mock response when no LLM is available."""
+        import datetime
+        today = datetime.date.today().isoformat()
+        msg_lower = user_message.lower()
+
+        # Check if the message already contains all key info
+        has_discipline = any(d in msg_lower for d in ['civil', 'piping', 'electrical', 'instrumentation', 'hse'])
+        has_percent = '%' in user_message or 'percent' in msg_lower or 'complete' in msg_lower
+        has_location = any(w in msg_lower for w in ['zone', 'area', 'line', 'tank', 'section', 'grid', 'block', 'unit', 'bay'])
+
+        if has_discipline and has_percent and has_location:
+            # Extract discipline
+            discipline = 'Civil'
+            for d in ['Civil', 'Piping', 'Electrical', 'Instrumentation', 'HSE']:
+                if d.lower() in msg_lower:
+                    discipline = d
+                    break
+            return f"READY_TO_EXTRACT: {discipline} | Site Area | {user_message[:80]} | 50% | {today}"
+        elif not has_discipline:
+            return "Got it! Which engineering discipline is this for? (Civil / Piping / Electrical / Instrumentation / HSE)"
+        elif not has_location:
+            return "Understood. Which physical location or zone on site was this work done?"
+        elif not has_percent:
+            return "Thanks! What percentage complete is this activity?"
+        else:
+            return f"READY_TO_EXTRACT: Civil | Site Area | {user_message[:80]} | 50% | {today}"
+
+    def reset(self):
+        """Reset conversation history."""
+        self._history = []
 
 
 def parse_ready_signal(agent_response: str) -> Optional[str]:
@@ -96,3 +135,9 @@ def parse_ready_signal(agent_response: str) -> Optional[str]:
     if "READY_TO_EXTRACT:" in agent_response:
         return agent_response.split("READY_TO_EXTRACT:", 1)[1].strip()
     return None
+
+
+# Keep backward compat: build_time_agent_chain returns a TimeAgent instance
+def build_time_agent_chain(**kwargs) -> TimeAgent:
+    """Create and return a TimeAgent instance (backward compatible)."""
+    return TimeAgent()

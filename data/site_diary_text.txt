@@ -1,7 +1,7 @@
 DAILY PROGRESS REPORT — SITE DIARY
 Project: Tank Farm Expansion Phase-II
 Contractor: M/s Bharat Engineering Services Pvt Ltd
-Date: 14-Feb-2024
+Date: 14-Feb-2026
 Reported By: Rajan Mishra (Site Supervisor, Piping)
 Shift: General (0800-1700)
 Weather: Clear, temp ~26°C
@@ -13,7 +13,7 @@ PIPING:
 - Spool erected on 6 inch line near hot oil tank. Done 3 joints weld today, total 9 joints done out of 28.
   Pending joints due to flange alignment issue on NE side. Material inspector checked WPS compliance.
 - 3 inch SS line (utility area) - 6 more spools aligned and tacked. Approx 40 percent done now.
-  Had to stop early because consumables (SS ER316L wire) ran short. Raised PR-2024-089.
+  Had to stop early because consumables (SS ER316L wire) ran short. Raised PR-2026-089.
 
 CIVIL:
 - RCC footing pour at grid B3 completed 0930 hrs - approx 85 cum poured. Curing started.
@@ -33,7 +33,7 @@ INSTRUMENTATION:
 HSE:
 - 2 near miss reports filed: (1) Housekeeping issue at pipe spool staging area.
   (2) Worker observed without safety goggles during grinding. Both counselled.
-- Fire watch active for welding at tank farm. PTW no. HW-2024-147 valid till 15-Feb.
+- Fire watch active for welding at tank farm. PTW no. HW-2026-147 valid till 15-Feb.
 
 ISSUES/CONSTRAINTS:
 1. SS consumables shortage - piping delay risk

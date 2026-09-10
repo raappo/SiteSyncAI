@@ -166,6 +166,11 @@ def embed_text_passage(text: str) -> np.ndarray:
     return embed_text(text, input_type="passage")
 
 
+def embed_texts(texts: list[str], input_type: str = "passage") -> list[np.ndarray]:
+    """Embed a batch of text strings."""
+    return [embed_text(t, input_type=input_type) for t in texts]
+
+
 def serialize(vec: np.ndarray) -> bytes:
     """Serialize numpy array → bytes for SQLite BLOB storage."""
     return pickle.dumps(vec.astype(np.float32))
