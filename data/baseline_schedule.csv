@@ -1,31 +1,50 @@
 activity_id,wbs_code,discipline,description,location,planned_start,planned_end,progress_pct,predecessor_id,unit_of_measure,quantity_planned
-CIV-001,1.1.1.1,Civil,Excavation for RCC foundation at Grid A1-B3,Tank Farm Area,2024-01-15,2024-01-25,100,,,m3,450
-CIV-002,1.1.1.2,Civil,PCC lean concrete pour at Grid A1-B3,Tank Farm Area,2024-01-26,2024-01-28,100,CIV-001,m3,38
-CIV-003,1.1.1.3,Civil,RCC footing concrete pour Grid A1-B3,Tank Farm Area,2024-01-29,2024-02-05,85,CIV-002,m3,120
-CIV-004,1.1.2.1,Civil,Backfilling and compaction around RCC footing,Tank Farm Area,2024-02-06,2024-02-10,60,CIV-003,m3,340
-CIV-005,1.1.2.2,Civil,Pedestal construction for equipment skid EQ-101,Tank Farm Area,2024-02-11,2024-02-20,0,CIV-004,m3,18
-CIV-006,1.2.1.1,Civil,Road sub-base preparation internal plant road,Plant North Entry,2024-02-01,2024-02-15,100,,,m2,2800
-CIV-007,1.2.1.2,Civil,WMM water mixed macadam layer internal plant road,Plant North Entry,2024-02-16,2024-02-28,70,CIV-006,m2,2800
-CIV-008,1.2.1.3,Civil,Asphalt top coat laying internal plant road,Plant North Entry,2024-03-01,2024-03-10,0,CIV-007,m2,2800
-PIP-001,2.1.1.1,Piping,Fabrication of spool Line 24-HO-101 (6-inch carbon steel),Pipe Shop,2024-01-20,2024-02-10,100,,,spools,14
-PIP-002,2.1.1.2,Piping,Erect and weld Line 24-HO-101 spool assembly,Tank Farm Area,2024-02-11,2024-02-25,75,PIP-001,joints,28
-PIP-003,2.1.2.1,Piping,Hydrostatic pressure test Line 24-HO-101,Tank Farm Area,2024-02-26,2024-02-28,0,PIP-002,test,1
-PIP-004,2.2.1.1,Piping,Fabrication of spool Line 24-WI-201 (3-inch stainless steel),Pipe Shop,2024-01-25,2024-02-15,100,,,spools,8
-PIP-005,2.2.1.2,Piping,Erect Line 24-WI-201 spool CS to SS transition,Utility Area,2024-02-16,2024-03-05,40,PIP-004,joints,16
-PIP-006,2.2.2.1,Piping,Insulation cladding Line 24-HO-101 hot oil line,Tank Farm Area,2024-03-01,2024-03-15,0,PIP-003,m,85
-PIP-007,2.3.1.1,Piping,Install control valve assembly FCV-2401 on hot oil return,Tank Farm Area,2024-03-10,2024-03-15,0,PIP-002,nos,1
-PIP-008,2.3.1.2,Piping,Flange bolt-up and torquing Line 24-HO-101 critical joints,Tank Farm Area,2024-02-20,2024-02-25,50,PIP-002,joints,12
-ELE-001,3.1.1.1,Electrical,MCC-04 Motor Control Centre installation and alignment,Electrical Substation,2024-01-10,2024-01-25,100,,,nos,1
-ELE-002,3.1.1.2,Electrical,Cable tray installation MCC-04 to pump area,Cable Trench A,2024-01-26,2024-02-10,90,ELE-001,m,320
-ELE-003,3.1.2.1,Electrical,HV cable pulling 11kV feeder to transformer TR-02,HV Yard,2024-02-01,2024-02-20,65,,,m,480
-ELE-004,3.1.2.2,Electrical,LV power cable termination MCC-04 incomers,Electrical Substation,2024-02-15,2024-02-25,30,ELE-001,nos,24
-ELE-005,3.2.1.1,Electrical,Earthing and lightning protection system installation Tank Farm,Tank Farm Area,2024-02-01,2024-02-28,80,,,m,650
-ELE-006,3.2.2.1,Electrical,Area lighting installation on high mast poles Plant North,Plant North Entry,2024-03-01,2024-03-20,0,ELE-005,nos,6
-INS-001,4.1.1.1,Instrumentation,Instrument cable tray installation DCS room to field junction boxes,Cable Trench A,2024-01-15,2024-02-05,100,,,m,280
-INS-002,4.1.1.2,Instrumentation,Instrument cable pulling JB-101 to FT-2401 flow transmitter,Tank Farm Area,2024-02-06,2024-02-20,85,INS-001,m,95
-INS-003,4.1.2.1,Instrumentation,Loop check and calibration FT-2401 flow transmitter loop,Tank Farm Area,2024-02-21,2024-02-28,0,INS-002,loops,1
-INS-004,4.2.1.1,Instrumentation,Install and hook up PT-2402 pressure transmitter on Line 24-HO-101,Tank Farm Area,2024-03-01,2024-03-05,0,PIP-003,nos,1
-INS-005,4.2.2.1,Instrumentation,DCS loop check MCC-04 motor interlocks P-2401A/B,DCS Room,2024-03-05,2024-03-10,0,ELE-004,loops,2
-HSE-001,5.1.1.1,HSE,Safety induction and toolbox talk - all new contractor crew,Site Office,2024-01-08,2024-01-10,100,,,nos,45
-HSE-002,5.1.1.2,HSE,Scaffold erection inspection and tagging at Tank Farm Area,Tank Farm Area,2024-01-15,2024-01-20,100,HSE-001,nos,12
-HSE-003,5.1.2.1,HSE,Fire watch and hot work permit for all welding activities,Tank Farm Area,2024-02-01,2024-03-15,75,HSE-002,days,35
+CIV-001,1.1.1.1,Civil,Excavation for RCC foundation at Grid A1-B3,Tank Farm Area,2026-01-05,2026-01-15,100,,m3,450
+CIV-002,1.1.1.2,Civil,PCC lean concrete pour at Grid A1-B3,Tank Farm Area,2026-01-16,2026-01-18,100,CIV-001,m3,38
+CIV-003,1.1.1.3,Civil,RCC footing concrete pour Grid A1-B3,Tank Farm Area,2026-01-19,2026-01-28,85,CIV-002,m3,120
+CIV-004,1.1.2.1,Civil,Backfilling and compaction around RCC footing,Tank Farm Area,2026-01-29,2026-02-05,60,CIV-003,m3,340
+CIV-005,1.1.2.2,Civil,Pedestal construction for equipment skid EQ-101,Tank Farm Area,2026-02-06,2026-02-18,15,CIV-004,m3,18
+CIV-006,1.2.1.1,Civil,Road sub-base preparation internal plant road,Plant North Entry,2026-01-10,2026-01-25,100,,m2,2800
+CIV-007,1.2.1.2,Civil,WMM water mixed macadam layer internal plant road,Plant North Entry,2026-01-26,2026-02-10,70,CIV-006,m2,2800
+CIV-008,1.2.1.3,Civil,Asphalt top coat laying internal plant road,Plant North Entry,2026-02-11,2026-02-22,0,CIV-007,m2,2800
+CIV-009,1.3.1.1,Civil,Earthwork cutting and grading for stormwater drain,Utility Corridor,2026-02-01,2026-02-15,50,,m3,600
+CIV-010,1.3.1.2,Civil,RCC box culvert construction at road crossing,Plant North Entry,2026-02-16,2026-03-05,0,CIV-009,m,24
+CIV-011,1.4.1.1,Civil,Boundary wall construction north perimeter,North Perimeter,2026-02-01,2026-03-15,40,,m,180
+CIV-012,1.4.1.2,Civil,Security gatehouse structural work,Main Gate,2026-02-20,2026-03-10,25,,nos,1
+PIP-001,2.1.1.1,Piping,Fabrication of spool Line 24-HO-101 6-inch carbon steel,Pipe Shop,2026-01-10,2026-02-05,100,,spools,14
+PIP-002,2.1.1.2,Piping,Erect and weld Line 24-HO-101 spool assembly at tank farm,Tank Farm Area,2026-02-06,2026-02-22,75,PIP-001,joints,28
+PIP-003,2.1.2.1,Piping,Hydrostatic pressure test Line 24-HO-101,Tank Farm Area,2026-02-23,2026-02-26,0,PIP-002,test,1
+PIP-004,2.2.1.1,Piping,Fabrication of spool Line 24-WI-201 3-inch stainless steel,Pipe Shop,2026-01-15,2026-02-10,100,,spools,8
+PIP-005,2.2.1.2,Piping,Erect Line 24-WI-201 spool CS to SS transition,Utility Area,2026-02-11,2026-03-02,40,PIP-004,joints,16
+PIP-006,2.2.2.1,Piping,Insulation cladding Line 24-HO-101 hot oil line,Tank Farm Area,2026-03-01,2026-03-18,0,PIP-003,m,85
+PIP-007,2.3.1.1,Piping,Install control valve assembly FCV-2401 on hot oil return,Tank Farm Area,2026-03-10,2026-03-18,0,PIP-002,nos,1
+PIP-008,2.3.1.2,Piping,Flange bolt-up and torquing Line 24-HO-101 critical joints,Tank Farm Area,2026-02-15,2026-02-22,50,PIP-002,joints,12
+PIP-009,2.4.1.1,Piping,Fabrication of cooling water line 8-inch GI pipe,Pipe Shop,2026-02-01,2026-02-20,80,,spools,20
+PIP-010,2.4.1.2,Piping,Erect cooling water line CWS-301 compressor area,Compressor Area,2026-02-21,2026-03-10,20,PIP-009,joints,40
+PIP-011,2.5.1.1,Piping,Chemical injection quill installation Line 24-HO-101,Tank Farm Area,2026-03-15,2026-03-20,0,PIP-003,nos,2
+PIP-012,2.5.1.2,Piping,Safety valve SV-2401 installation and torquing,Tank Farm Area,2026-03-18,2026-03-22,0,PIP-007,nos,1
+ELE-001,3.1.1.1,Electrical,MCC-04 Motor Control Centre installation and alignment,Electrical Substation,2026-01-08,2026-01-22,100,,nos,1
+ELE-002,3.1.1.2,Electrical,Cable tray installation MCC-04 to pump area,Cable Trench A,2026-01-23,2026-02-08,90,ELE-001,m,320
+ELE-003,3.1.2.1,Electrical,HV cable pulling 11kV feeder to transformer TR-02,HV Yard,2026-02-01,2026-02-20,65,,m,480
+ELE-004,3.1.2.2,Electrical,LV power cable termination MCC-04 incomers,Electrical Substation,2026-02-15,2026-02-25,30,ELE-001,nos,24
+ELE-005,3.2.1.1,Electrical,Earthing and lightning protection system installation Tank Farm,Tank Farm Area,2026-02-01,2026-02-28,80,,m,650
+ELE-006,3.2.2.1,Electrical,Area lighting installation on high mast poles Plant North,Plant North Entry,2026-03-01,2026-03-22,0,ELE-005,nos,6
+ELE-007,3.3.1.1,Electrical,UPS and battery bank installation DCS room,DCS Room,2026-02-20,2026-03-05,45,,nos,1
+ELE-008,3.3.1.2,Electrical,Instrument power distribution panel IPDP-01 installation,DCS Room,2026-03-01,2026-03-10,0,ELE-007,nos,1
+ELE-009,3.4.1.1,Electrical,Motor termination and megger test pump P-2401A,Pump Area,2026-02-25,2026-03-05,0,ELE-004,nos,1
+ELE-010,3.4.1.2,Electrical,Motor termination and megger test pump P-2401B,Pump Area,2026-02-25,2026-03-05,0,ELE-004,nos,1
+INS-001,4.1.1.1,Instrumentation,Instrument cable tray installation DCS room to field junction boxes,Cable Trench A,2026-01-12,2026-02-05,100,,m,280
+INS-002,4.1.1.2,Instrumentation,Instrument cable pulling JB-101 to FT-2401 flow transmitter,Tank Farm Area,2026-02-06,2026-02-20,85,INS-001,m,95
+INS-003,4.1.2.1,Instrumentation,Loop check and calibration FT-2401 flow transmitter loop,Tank Farm Area,2026-02-21,2026-02-28,0,INS-002,loops,1
+INS-004,4.2.1.1,Instrumentation,Install and hook up PT-2402 pressure transmitter on Line 24-HO-101,Tank Farm Area,2026-03-01,2026-03-06,0,PIP-003,nos,1
+INS-005,4.2.2.1,Instrumentation,DCS loop check MCC-04 motor interlocks P-2401A/B,DCS Room,2026-03-05,2026-03-12,0,ELE-004,loops,2
+INS-006,4.3.1.1,Instrumentation,Field junction box JB-101 installation and wiring,Tank Farm Area,2026-01-20,2026-02-05,100,,nos,1
+INS-007,4.3.1.2,Instrumentation,Field junction box JB-102 installation and wiring,Compressor Area,2026-01-25,2026-02-10,75,,nos,1
+INS-008,4.4.1.1,Instrumentation,Control valve CV-2401 actuator calibration,Tank Farm Area,2026-03-15,2026-03-18,0,INS-003,nos,1
+INS-009,4.4.1.2,Instrumentation,Temperature transmitter TT-2403 installation hot oil outlet,Tank Farm Area,2026-03-10,2026-03-15,0,PIP-002,nos,1
+INS-010,4.5.1.1,Instrumentation,Fiber optic cable laying DCS to remote I/O panel,DCS Room,2026-02-10,2026-02-25,60,,m,150
+HSE-001,5.1.1.1,HSE,Safety induction and toolbox talk all new contractor crew,Site Office,2026-01-05,2026-01-08,100,,nos,45
+HSE-002,5.1.1.2,HSE,Scaffold erection inspection and tagging at Tank Farm Area,Tank Farm Area,2026-01-12,2026-01-18,100,HSE-001,nos,12
+HSE-003,5.1.2.1,HSE,Fire watch and hot work permit for all welding activities,Tank Farm Area,2026-02-01,2026-03-22,75,HSE-002,days,35
+HSE-004,5.2.1.1,HSE,Emergency response drill and evacuation exercise,Site Wide,2026-02-15,2026-02-15,100,,nos,1
+HSE-005,5.2.1.2,HSE,Monthly HSE audit and corrective action tracking,Site Office,2026-03-01,2026-03-31,0,,nos,1

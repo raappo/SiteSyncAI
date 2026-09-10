@@ -1,0 +1,21 @@
+activity_description,discipline,location,actual_progress_pct,date,evidence_type,quantity_completed,quantity_unit,constraints
+"Piping team welded 3 joints on Line 24-HO-101 hot oil line. Total 9 of 28 joints complete.",Piping,Tank Farm Area,32.14,2026-09-10,text,9.0,joints,"Flange alignment issue on NE side"
+"3-inch SS utility line — 6 more spools aligned and tacked. Approx 40% done now. Had to stop early because SS ER316L consumables ran short.",Piping,Utility Area,40.0,2026-09-10,text,6.0,spools,"Consumables shortage — raised PR-2026-089"
+"RCC footing pour at Grid B3 completed 0930 hrs. Total footing progress now ~85%. QC hold point cleared by PMC.",Civil,Tank Farm Area,85.0,2026-09-10,text,120.0,m3,
+"WMM layer laying ongoing plant north road. About 70% done. Road roller breakdown at 1400 sent for repair.",Civil,Plant North Entry,70.0,2026-09-10,text,1960.0,m2,"Road roller breakdown"
+"Cable tray work almost done maybe 90%. Last section near DB-4 still pending because civil embedments not complete.",Electrical,Cable Trench A,90.0,2026-09-10,text,288.0,m,"Waiting on Civil embedments"
+"Pulled instrument cable from JB-101 to FT-2401 flow transmitter. 85% complete. Remaining 15m cable route has congestion.",Instrumentation,Tank Farm Area,85.0,2026-09-10,text,80.75,m,"Cable route congestion — RFI raised"
+"HSE audit complete. 2 near miss reports filed: housekeeping at pipe spool staging area and worker without safety goggles.",HSE,Site Wide,75.0,2026-09-10,text,,,"Near miss reports filed"
+"Backfilling and compaction at RCC footing now 60% complete. Compaction tested and passing.",Civil,Tank Farm Area,60.0,2026-09-09,text,204.0,m3,
+"Hot oil line insulation cladding started. Approximately 0% done yet — materials arrived today.",Piping,Tank Farm Area,0.0,2026-09-09,text,0.0,m,"First day of activity"
+"HV cable pulling to transformer TR-02 progressed to 65%. Three pulls completed today.",Electrical,HV Yard,65.0,2026-09-09,spreadsheet,312.0,m,
+"MCC-04 cable tray to pump area — 90% of tray installed. Remaining section at pump plinth pending civil handover.",Electrical,Cable Trench A,90.0,2026-09-08,spreadsheet,288.0,m,"Civil plinth handover pending"
+"Earthing conductor installation at tank farm 80% done. Grid laid from MCC room to Tank T-01.",Electrical,Tank Farm Area,80.0,2026-09-08,spreadsheet,520.0,m,
+"Instrument cable tray from DCS to JB-101 complete — 100%.",Instrumentation,Cable Trench A,100.0,2026-09-07,spreadsheet,280.0,m,
+"UPS installation in DCS room 45% complete. Battery bank frames erected. Cells to arrive tomorrow.",Electrical,DCS Room,45.0,2026-09-07,text,,,"Battery cells delivery pending"
+"Boundary wall north perimeter 40% complete. Blockwork progressing at 2 m per day.",Civil,North Perimeter,40.0,2026-09-06,text,72.0,m,
+"Cooling water line fabrication at pipe shop. 80% of spools fabricated.",Piping,Pipe Shop,80.0,2026-09-06,spreadsheet,16.0,spools,
+"FT-2401 instrument cable pull 85% done. Remaining route through congested rack area.",Instrumentation,Tank Farm Area,85.0,2026-09-05,text,80.75,m,"Congested cable tray rack"
+"Safety scaffold at Tank Farm tagged and inspected. 100% complete.",HSE,Tank Farm Area,100.0,2026-09-05,text,12.0,nos,
+"LV cable terminations at MCC-04 incomers 30% done. 8 of 24 terminals torqued.",Electrical,Electrical Substation,30.0,2026-09-04,spreadsheet,8.0,nos,
+"Spool erection Line 24-WI-201. 6 of 16 joints welded — 40% progress.",Piping,Utility Area,40.0,2026-09-04,spreadsheet,6.0,joints,

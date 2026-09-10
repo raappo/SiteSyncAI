@@ -39,7 +39,10 @@ dependencies = [
     "plotly>=5.18.0",
     "typer>=0.9.0",
     "faster-whisper>=1.0.0",
-    "python-multipart>=0.0.6"
+    "python-multipart>=0.0.6",
+    # ── REST API layer ────────────────────────────────────────────────────────
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
 ]
 
 [project.scripts]
@@ -56,9 +59,18 @@ packages = ["sitesync"]
 dev = [
     "ipython>=8.26.0",
     "pytest>=9.1.1",
+    "pytest-httpx>=0.30.0",
     "ruff>=0.6.0",
 ]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+# Prevent a single broken import from aborting all test collection
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
