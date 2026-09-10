@@ -78,15 +78,11 @@ Field Input (text/PDF/Excel/voice)
 pip install uv
 uv sync
 
-# 2. Copy and fill in your API keys
-cp .env.example .env
-# Edit .env with your NVIDIA_API_KEY or EXPLABS_API_KEY
-
-# 3. Seed the database with the baseline schedule
+# 2. Seed the database with the baseline schedule
 uv run sitesync-seed
 # or: uv run python -m sitesync.db.seed
 
-# 4. Run the Streamlit web UI
+# 3. Run the Streamlit web UI
 uv run streamlit run frontend/app.py
 
 # 5. (Optional) Run the FastAPI backend
