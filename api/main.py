@@ -97,4 +97,7 @@ def search_memory(q: str, discipline: Optional[str] = None, n: int = 5):
 
 @app.get("/api/v1/memory/stats")
 def get_memory_stats():
-    return memory_stats()
+    try:
+        return memory_stats()
+    except Exception:
+        raise HTTPException(status_code=500, detail="Unable to fetch memory stats")
