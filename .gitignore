@@ -19,8 +19,6 @@ env/
 .uv/
 
 # Environment & secrets — NEVER commit these
-.env
-*.env.local
 
 # Databases & local data stores (re-created by seed script)
 data/sitesync.db
