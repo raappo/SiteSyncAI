@@ -19,14 +19,10 @@ Infrastructure projects suffer from a disconnect between micro-level field execu
 pip install uv
 uv sync
 
-# 2. Setup environment
-cp .env.example .env
-# (Optional) Edit .env with your API keys. Without keys, the app runs in mock mode.
-
-# 3. Seed the database
+# 2. Seed the database
 uv run python -m sitesync.db.seed
 
-# 4. Run the web UI
+# 3. Run the web UI
 uv run streamlit run frontend/app.py
 ```
 
